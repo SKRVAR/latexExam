@@ -1,0 +1,31 @@
+# Archivo .gitignore para el proyecto de examen LaTeX
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Archivos temporales
+*.tmp
+*.temp
+~*
+
+# Logs
+*.log
+
+# Archivos de configuración local (si agregas configuraciones personales)
+config.local.js
+
+# Node modules (si decides agregar herramientas de desarrollo)
+node_modules/
+
+# Archivos de IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Archivos de respaldo
+*.bak
+*.backup

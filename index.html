@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evaluación del Curso de LaTeX</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Pantalla de Inicio -->
+        <div id="welcome-screen" class="screen active">
+            <h1>Evaluación del Curso de LaTeX</h1>
+            <p class="subtitle">Bienvenido al examen final</p>
+            <div class="info-box">
+                <p><strong>Instrucciones:</strong></p>
+                <ul>
+                    <li>El examen consta de 20 preguntas (nivel básico a intermedio)</li>
+                    <li>Tiempo total: <strong>20 minutos</strong></li>
+                    <li>Cada pregunta tiene un tiempo límite individual (30-45 segundos)</li>
+                    <li>No podrás volver a preguntas anteriores durante el examen</li>
+                    <li>Al finalizar, podrás revisar y modificar tus respuestas si te queda tiempo</li>
+                    <li>La puntuación es sobre 20 puntos</li>
+                    <li>Una vez enviado, no podrás modificar tus respuestas</li>
+                </ul>
+            </div>
+            <div class="form-group">
+                <label for="student-lastname">Apellidos:</label>
+                <input type="text" id="student-lastname" placeholder="Ingresa tus apellidos" required>
+            </div>
+            <div class="form-group">
+                <label for="student-firstname">Nombres:</label>
+                <input type="text" id="student-firstname" placeholder="Ingresa tus nombres" required>
+            </div>
+            <div class="form-group">
+                <label for="student-email">Correo electrónico:</label>
+                <input type="email" id="student-email" placeholder="tu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label for="student-code">Código de estudiante:</label>
+                <input type="text" id="student-code" placeholder="Código de estudiante" required>
+            </div>
+            <button id="start-btn" class="btn btn-primary">Comenzar Examen</button>
+        </div>
+
+        <!-- Pantalla de Examen -->
+        <div id="exam-screen" class="screen">
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill"></div>
+            </div>
+            <div class="question-info">
+                <span id="question-number">Pregunta 1 de 20</span>
+                <span id="timer" class="timer"></span>
+            </div>
+            
+            <div class="question-container">
+                <h2 id="question-text"></h2>
+                <div id="options-container" class="options-container"></div>
+            </div>
+
+            <div class="navigation-buttons">
+                <button id="prev-btn" class="btn btn-secondary" disabled>Anterior</button>
+                <button id="next-btn" class="btn btn-primary">Siguiente</button>
+                <button id="submit-btn" class="btn btn-success" style="display: none;">Enviar Examen</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Revisión Previa (antes de enviar) -->
+        <div id="preview-screen" class="screen">
+            <h1>Revisión de Respuestas</h1>
+            <div class="preview-timer-box">
+                <p class="preview-timer-label">Tiempo restante para modificar:</p>
+                <p id="preview-timer" class="preview-timer">00:00</p>
+            </div>
+            <div class="preview-info">
+                <p>Revisa tus respuestas. Puedes hacer clic en cualquier pregunta para modificarla si aún tienes tiempo.</p>
+                <p class="preview-answered">Respondidas: <span id="preview-answered-count">0</span> de 20</p>
+            </div>
+            <div id="preview-container" class="preview-container"></div>
+            <div class="preview-actions">
+                <button id="final-submit-btn" class="btn btn-success">Enviar Examen Final</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Revisión Previa (antes de enviar) -->
+        <div id="preview-screen" class="screen">
+            <h1>Revisión de Respuestas</h1>
+            <div class="preview-timer-box">
+                <p class="preview-timer-label">Tiempo restante para modificar:</p>
+                <p id="preview-timer" class="preview-timer">00:00</p>
+            </div>
+            <div class="preview-info">
+                <p>Revisa tus respuestas. Puedes hacer clic en cualquier pregunta para modificarla si aún tienes tiempo.</p>
+                <p class="preview-answered">Respondidas: <span id="preview-answered-count">0</span> de 20</p>
+            </div>
+            <div id="preview-container" class="preview-container"></div>
+            <div class="preview-actions">
+                <button id="final-submit-btn" class="btn btn-success">Enviar Examen Final</button>
+            </div>
+        </div>
+
+        <!-- Pantalla de Resultados -->
+        <div id="results-screen" class="screen">
+            <h1>¡Examen Completado!</h1>
+            <div class="results-container">
+                <div class="score-display">
+                    <div class="score-circle">
+                        <span id="final-score" class="score-number">0</span>
+                        <span class="score-total">/20</span>
+                    </div>
+                </div>
+                <div class="results-info">
+                    <p><strong>Estudiante:</strong> <span id="result-name"></span></p>
+                    <p><strong>Código:</strong> <span id="result-code"></span></p>
+                    <p><strong>Respuestas correctas:</strong> <span id="correct-answers"></span> de 20</p>
+                    <p><strong>Porcentaje:</strong> <span id="percentage"></span>%</p>
+                    <p><strong>Fecha:</strong> <span id="exam-date"></span></p>
+                </div>
+                <div class="feedback">
+                    <p id="feedback-message"></p>
+                </div>
+            </div>
+            <button id="review-btn" class="btn btn-secondary">Ver Respuestas</button>
+        </div>
+
+        <!-- Pantalla de Revisión -->
+        <div id="review-screen" class="screen">
+            <h1>Revisión de Respuestas</h1>
+            <div id="review-container"></div>
+            <button id="back-to-results-btn" class="btn btn-primary">Volver a Resultados</button>
+        </div>
+
+        <!-- Loading Spinner -->
+        <div id="loading" class="loading" style="display: none;">
+            <div class="spinner"></div>
+            <p>Enviando respuestas...</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
