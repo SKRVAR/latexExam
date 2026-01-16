@@ -11,7 +11,7 @@ const QUESTIONS = [
         id: 1,
         question: '¿Cuál es la estructura mínima correcta para un documento LaTeX?',
         type: 'multiple',
-        timeLimit: 45,
+        timeLimit: 55,
         options: [
             '\\documentclass{article}\\begin{document}texto\\end{document}',
             '\\begin{document}texto\\end{document}',
@@ -90,37 +90,32 @@ const QUESTIONS = [
     },
     {
         id: 8,
-        question: 'Para escribir texto en cursiva se puede usar tanto \\textit{} como \\emph{}.',
+        question: 'Para usar BibLaTeX en un documento, ¿qué comando se debe usar en el preámbulo?',
+        type: 'multiple',
+        timeLimit: 40,
+        options: [
+            '\\usepackage{bibtex}',
+            '\\usepackage{biblatex}',
+            '\\usepackage{bibliography}',
+            '\\usepackage{biber}'
+        ],
+        correct: 1
+    },
+    {
+        id: 9,
+        question: 'El comando \\addbibresource{} se usa para especificar el archivo .bib en BibLaTeX.',
         type: 'boolean',
         timeLimit: 35,
         options: ['Verdadero', 'Falso'],
         correct: 0
     },
     {
-        id: 9,
-        question: '¿Cuál comando se usa para crear una nueva página en LaTeX?',
-        type: 'multiple',
-        timeLimit: 35,
-        options: [
-            '\\newpage',
-            '\\nextpage',
-            '\\pagebreak',
-            'Tanto A como C son correctos'
-        ],
-        correct: 3
-    },
-    {
         id: 10,
-        question: '¿Qué entorno se utiliza para centrar texto en LaTeX?',
-        type: 'multiple',
-        timeLimit: 40,
-        options: [
-            '\\begin{centered}',
-            '\\begin{center}',
-            '\\begin{middle}',
-            '\\centering'
-        ],
-        correct: 1
+        question: 'El preámbulo de un documento LaTeX es la sección que va entre \\documentclass y \\begin{document}.',
+        type: 'boolean',
+        timeLimit: 35,
+        options: ['Verdadero', 'Falso'],
+        correct: 0
     },
     {
         id: 11,
@@ -192,24 +187,24 @@ const QUESTIONS = [
     },
     {
         id: 17,
-        question: 'El entorno "verbatim" permite escribir código o texto literal sin que LaTeX lo interprete.',
+        question: 'En el entorno tabular, ¿qué símbolo se usa para separar columnas?',
+        type: 'multiple',
+        timeLimit: 40,
+        options: [
+            '|',
+            '&',
+            '/',
+            ','
+        ],
+        correct: 1
+    },
+    {
+        id: 18,
+        question: 'El entorno figure permite que LaTeX coloque automáticamente las imágenes en la mejor posición.',
         type: 'boolean',
         timeLimit: 35,
         options: ['Verdadero', 'Falso'],
         correct: 0
-    },
-    {
-        id: 18,
-        question: '¿Qué comando se usa para crear una referencia cruzada a una sección o figura?',
-        type: 'multiple',
-        timeLimit: 45,
-        options: [
-            '\\reference{etiqueta}',
-            '\\ref{etiqueta}',
-            '\\link{etiqueta}',
-            '\\crossref{etiqueta}'
-        ],
-        correct: 1
     },
     {
         id: 19,
