@@ -819,18 +819,34 @@ function showResults() {
     elements.percentage.textContent = ((appState.correctCount / QUESTIONS.length) * 100).toFixed(1);
     elements.examDate.textContent = appState.endTime.toLocaleString('es-ES');
     
-    // Mensaje de retroalimentación
+    // Mensaje de retroalimentación con sistema vigesimal
     let feedback = '';
+    let calificacion = '';
+    
     if (appState.score >= 18) {
-        feedback = '¡Excelente! Tienes un dominio sobresaliente de LaTeX.';
+        calificacion = 'EXCELENTE (18-20)';
+        feedback = '🎉 ¡Felicitaciones! Has obtenido una calificación EXCELENTE en el sistema vigesimal. Demuestras un dominio sobresaliente de LaTeX y estás perfectamente preparado para aplicar estos conocimientos en documentos científicos y académicos.';
     } else if (appState.score >= 14) {
-        feedback = '¡Muy bien! Demuestras un buen conocimiento de LaTeX.';
+        calificacion = 'BUENO (14-17)';
+        feedback = '👏 ¡Muy bien! Has obtenido una calificación BUENA en el sistema vigesimal. Tienes un conocimiento sólido de LaTeX y puedes trabajar con confianza en la mayoría de documentos académicos. Sigue practicando para alcanzar la excelencia.';
     } else if (appState.score >= 11) {
-        feedback = 'Aprobado. Tienes conocimientos básicos de LaTeX, pero hay margen de mejora.';
+        calificacion = 'APROBADO (11-13)';
+        feedback = '✅ Has APROBADO el examen con nota satisfactoria en el sistema vigesimal. Dominas los fundamentos básicos de LaTeX. Te recomendamos practicar más con casos reales para fortalecer tus habilidades y alcanzar un nivel superior.';
     } else {
-        feedback = 'Necesitas reforzar tus conocimientos de LaTeX. Te recomendamos revisar el material del curso.';
+        calificacion = 'DESAPROBADO (00-10)';
+        feedback = '📚 Tu calificación indica que necesitas reforzar significativamente tus conocimientos de LaTeX. Te recomendamos revisar todo el material del curso, practicar con ejercicios básicos y consultar con el docente. ¡No te desanimes, con dedicación lo lograrás!';
     }
-    elements.feedbackMessage.textContent = feedback;
+    
+    elements.feedbackMessage.innerHTML = `
+        <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 20px; border-radius: 10px; margin-bottom: 15px;">
+            <h3 style="margin: 0 0 10px 0; font-size: 1.3em;">CALIFICACIÓN: ${calificacion}</h3>
+            <p style="margin: 0; font-size: 0.95em; line-height: 1.6;">${feedback}</p>
+        </div>
+        <div style="background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #667eea;">
+            <p style="margin: 0; color: #555; font-size: 0.9em;"><strong>📊 Sistema de Evaluación:</strong> Vigesimal (0-20 puntos)</p>
+            <p style="margin: 5px 0 0 0; color: #555; font-size: 0.9em;"><strong>✓ Nota Aprobatoria:</strong> 11 puntos o más</p>
+        </div>
+    `;
     
     showScreen('results');
 }
