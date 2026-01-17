@@ -2,6 +2,8 @@
 const CONFIG = {
     // Reemplaza esta URL con la URL de tu Google Apps Script Web App (obtenida al implementar)
     GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwmpBYMMLQ2it2MeY14S1ABTPJqZ8bXyqZqy_T6PtwIoYRGqWzJNlenUz2Q63F-Fdwa/exec',
+    // Código secreto para acceder al examen (cambiar a tu código deseado)
+    ACCESS_CODE: 'LATEX2026UNCP'
 };
 
 // Preguntas del examen sobre LaTeX - Nivel Básico a Intermedio
@@ -248,6 +250,11 @@ let appState = {
 
 // Elementos del DOM
 const elements = {
+    authScreen: document.getElementById('auth-screen'),
+    accessCode: document.getElementById('access-code'),
+    authBtn: document.getElementById('auth-btn'),
+    authError: document.getElementById('auth-error'),
+    
     welcomeScreen: document.getElementById('welcome-screen'),
     examScreen: document.getElementById('exam-screen'),
     previewScreen: document.getElementById('preview-screen'),
@@ -259,7 +266,6 @@ const elements = {
     studentLastname: document.getElementById('student-lastname'),
     studentFirstname: document.getElementById('student-firstname'),
     studentEmail: document.getElementById('student-email'),
-    studentCode: document.getElementById('student-code'),
     startBtn: document.getElementById('start-btn'),
     
     // Exam screen
@@ -294,6 +300,10 @@ const elements = {
 };
 
 // Event Listeners
+elements.authBtn.addEventListener('click', checkAccessCode);
+elements.accessCode.addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') checkAccessCode();
+});
 elements.startBtn.addEventListener('click', startExam);
 elements.prevBtn.addEventListener('click', previousQuestion);
 elements.nextBtn.addEventListener('click', nextQuestion);
@@ -302,9 +312,35 @@ elements.finalSubmitBtn.addEventListener('click', submitExam);
 elements.reviewBtn.addEventListener('click', showReview);
 elements.backToResultsBtn.addEventListener('click', backToResults);
 
+// Función de autenticación
+function checkAccessCode() {
+    const inputCode = elements.accessCode.value.trim();
+    
+    if (inputCode === '') {
+        showAuthError('Por favor, ingresa el código de acceso');
+        return;
+    }
+    
+    if (inputCode === CONFIG.ACCESS_CODE) {
+        // Código correcto
+        elements.authError.style.display = 'none';
+        showScreen('welcome');
+    } else {
+        // Código incorrecto
+        showAuthError('Código incorrecto. Contacta al docente para obtener el código de acceso.');
+        elements.accessCode.value = '';
+        elements.accessCode.focus();
+    }
+}
+
+function showAuthError(message) {
+    elements.authError.textContent = message;
+    elements.authError.style.display = 'block';
+}
+
 // Inicializar la aplicación
 function init() {
-    showScreen('welcome');
+    showScreen('auth');
 }
 
 // Mostrar pantalla
@@ -314,6 +350,9 @@ function showScreen(screenName) {
     });
     
     switch(screenName) {
+        case 'auth':
+            elements.authScreen.classList.add('active');
+            break;
         case 'welcome':
             elements.welcomeScreen.classList.add('active');
             break;
@@ -337,9 +376,8 @@ function startExam() {
     const lastname = elements.studentLastname.value.trim();
     const firstname = elements.studentFirstname.value.trim();
     const email = elements.studentEmail.value.trim();
-    const code = elements.studentCode.value.trim();
     
-    if (!lastname || !firstname || !email || !code) {
+    if (!lastname || !firstname || !email) {
         alert('Por favor, completa todos los campos obligatorios');
         return;
     }
@@ -349,7 +387,7 @@ function startExam() {
         return;
     }
     
-    appState.studentInfo = { lastname, firstname, email, code };
+    appState.studentInfo = { lastname, firstname, email };
     appState.startTime = new Date();
     appState.currentQuestion = 0;
     appState.answers = new Array(QUESTIONS.length).fill(null);
@@ -777,7 +815,6 @@ function showResults() {
     
     elements.finalScore.textContent = appState.score.toFixed(1);
     elements.resultName.textContent = fullName;
-    elements.resultCode.textContent = appState.studentInfo.code;
     elements.correctAnswers.textContent = appState.correctCount;
     elements.percentage.textContent = ((appState.correctCount / QUESTIONS.length) * 100).toFixed(1);
     elements.examDate.textContent = appState.endTime.toLocaleString('es-ES');

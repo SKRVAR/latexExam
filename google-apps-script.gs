@@ -63,7 +63,6 @@ function saveToSheet(data) {
     data.lastname,
     data.firstname,
     data.email,
-    data.code,
     parseFloat(data.score),
     parseInt(data.correctAnswers),
     parseInt(data.totalQuestions),
@@ -95,7 +94,6 @@ function createHeader(sheet) {
     'Apellidos',
     'Nombres',
     'Email',
-    'Código',
     'Puntuación (0-20)',
     'Respuestas Correctas',
     'Total Preguntas',
@@ -135,7 +133,6 @@ function saveDetailedAnswers(ss, data) {
       'Apellidos',
       'Nombres',
       'Email',
-      'Código',
       'Pregunta #',
       'Tipo',
       'Tiempo (seg)',
@@ -162,7 +159,6 @@ function saveDetailedAnswers(ss, data) {
       data.lastname,
       data.firstname,
       data.email,
-      data.code,
       answer.questionId,
       answer.questionType || 'multiple',
       answer.timeLimit || 45,
@@ -175,7 +171,7 @@ function saveDetailedAnswers(ss, data) {
   });
   
   // Ajustar columnas
-  detailSheet.autoResizeColumns(1, 12);
+  detailSheet.autoResizeColumns(1, 11);
 }
 
 /**
@@ -185,11 +181,11 @@ function formatSheet(sheet) {
   const lastRow = sheet.getLastRow();
   
   if (lastRow > 1) {
-    // Formato de columnas específicas
-    const scoreRange = sheet.getRange(2, 6, lastRow - 1, 1);
+    // Formato de columnas específicas (columna 5 ahora es Puntuación)
+    const scoreRange = sheet.getRange(2, 5, lastRow - 1, 1);
     scoreRange.setNumberFormat('0.00');
     
-    const percentRange = sheet.getRange(2, 9, lastRow - 1, 1);
+    const percentRange = sheet.getRange(2, 8, lastRow - 1, 1);
     percentRange.setNumberFormat('0.00"%"');
     
     // Formato condicional para puntuaciones
@@ -197,14 +193,14 @@ function formatSheet(sheet) {
   }
   
   // Ajustar ancho de columnas
-  sheet.autoResizeColumns(1, 10);
+  sheet.autoResizeColumns(1, 9);
 }
 
 /**
  * Aplicar formato condicional a las puntuaciones
  */
 function applyConditionalFormatting(sheet, lastRow) {
-  const scoreRange = sheet.getRange(2, 6, lastRow - 1, 1);
+  const scoreRange = sheet.getRange(2, 5, lastRow - 1, 1);
   
   // Regla 1: Puntuación >= 18 (Excelente) - Verde
   const rule1 = SpreadsheetApp.newConditionalFormatRule()
@@ -261,7 +257,9 @@ Hemos recibido tu examen de LaTeX. Aquí están tus resultados:
 📊 Puntuación: ${data.score}/20
 ✓ Respuestas correctas: ${data.correctAnswers}/${data.totalQuestions}
 📈 Porcentaje: ${data.percentage}%
-🎓 Código de estudiante: ${data.code}
+
+Docente: Lic. Oscar Sedano Vargas
+Curso: LaTeX - UNCP
 
 Gracias por participar.
 
@@ -304,29 +302,29 @@ function createStatistics() {
   statsSheet.getRange('A1').setValue('ESTADÍSTICAS DEL EXAMEN');
   statsSheet.getRange('A1').setFontSize(14).setFontWeight('bold');
   
-  // Calcular estadísticas
+  // Calcular estadísticas (columna 5 ahora es Puntuación)
   const scoresRange = sheet.getRange(2, 5, lastRow - 1, 1);
   
   statsSheet.getRange('A3').setValue('Total de exámenes:');
   statsSheet.getRange('B3').setValue(lastRow - 1);
   
   statsSheet.getRange('A4').setValue('Puntuación promedio:');
-  statsSheet.getRange('B4').setFormula(`=AVERAGE('${SHEET_NAME}'!F2:F${lastRow})`);
+  statsSheet.getRange('B4').setFormula(`=AVERAGE('${SHEET_NAME}'!E2:E${lastRow})`);
   statsSheet.getRange('B4').setNumberFormat('0.00');
   
   statsSheet.getRange('A5').setValue('Puntuación más alta:');
-  statsSheet.getRange('B5').setFormula(`=MAX('${SHEET_NAME}'!F2:F${lastRow})`);
+  statsSheet.getRange('B5').setFormula(`=MAX('${SHEET_NAME}'!E2:E${lastRow})`);
   statsSheet.getRange('B5').setNumberFormat('0.00');
   
   statsSheet.getRange('A6').setValue('Puntuación más baja:');
-  statsSheet.getRange('B6').setFormula(`=MIN('${SHEET_NAME}'!F2:F${lastRow})`);
+  statsSheet.getRange('B6').setFormula(`=MIN('${SHEET_NAME}'!E2:E${lastRow})`);
   statsSheet.getRange('B6').setNumberFormat('0.00');
   
   statsSheet.getRange('A7').setValue('Aprobados (≥11):');
-  statsSheet.getRange('B7').setFormula(`=COUNTIF('${SHEET_NAME}'!F2:F${lastRow},">=11")`);
+  statsSheet.getRange('B7').setFormula(`=COUNTIF('${SHEET_NAME}'!E2:E${lastRow},">=11")`);
   
   statsSheet.getRange('A8').setValue('Desaprobados (<11):');
-  statsSheet.getRange('B8').setFormula(`=COUNTIF('${SHEET_NAME}'!F2:F${lastRow},"<11")`);
+  statsSheet.getRange('B8').setFormula(`=COUNTIF('${SHEET_NAME}'!E2:E${lastRow},"<11")`);
   
   statsSheet.getRange('A9').setValue('Porcentaje de aprobación:');
   statsSheet.getRange('B9').setFormula(`=B7/(B7+B8)*100`);
