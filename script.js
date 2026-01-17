@@ -3,7 +3,7 @@ const CONFIG = {
     // Reemplaza esta URL con la URL de tu Google Apps Script Web App (obtenida al implementar)
     GOOGLE_SCRIPT_URL: 'https://script.google.com/macros/s/AKfycbwmpBYMMLQ2it2MeY14S1ABTPJqZ8bXyqZqy_T6PtwIoYRGqWzJNlenUz2Q63F-Fdwa/exec',
     // Código secreto para acceder al examen (cambiar a tu código deseado)
-    ACCESS_CODE: 'LATEX2026UNCP'
+    ACCESS_CODE: 'LATEX_2026UNCP@'
 };
 
 // Preguntas del examen sobre LaTeX - Nivel Básico a Intermedio
